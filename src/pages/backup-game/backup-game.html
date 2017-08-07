@@ -1,0 +1,90 @@
+<!--
+  Generated template for the BackupGamePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar class="navbarc">
+    <ion-title>{{wallet.walletName || 'Backup'}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-slides pager="true" class="pages">
+    <ion-slide *ngIf="!deleted">
+      <div class="phrase-unavailable" translate>Wallet recovery phrase not available.</div>
+      <div class="phrase-unavailable-instructions" translate>You can still export it from Advanced &gt; Export.</div>
+    </ion-slide>
+
+    <ion-slide *ngIf="!deleted">
+      <div id="wallet-backup-phrase-step-1" *ngIf="step == 1 && (mnemonicWords || (!credentialsEncrypted && !deleted))">
+        <div class="initial-prompt" translate>Please carefully write down this phrase.</div>
+        <div class="backup-phrase">
+        <!-- TODO copy-to-clipboard function -->
+        <!-- <div class="backup-phrase" copy-to-clipboard="copyRecoveryPhrase()"> -->
+          <div class="backup-phrase-content">
+            <template class="backup-phrase-content-word-readonly" *ngFor="let word of mnemonicWords">
+              <span style="white-space:nowrap">{{word}}</span>
+              <span *ngIf="useIdeograms">&#x3000;</span>
+            </template>
+          </div>
+        </div>
+        <div class="password-required" *ngIf="wallet.mnemonicHasPassphrase" translate>
+          This recovery phrase was created with a password. To recover this wallet both the recovery phrase and password are needed.
+        </div>
+        <div class="cta-buttons">
+          <div class="tldr-prompt" translate>We'll confirm on the next screen.</div>
+          <button *ngIf="!deleted" [disabled]="credentialsEncrypted || error" class="button button-standard button-primary" (click)="goToStep(2);" translate>I've written it down</button>
+        </div>
+      </div>
+    </ion-slide>
+
+    <ion-slide *ngIf="!deleted">
+      <div id="wallet-backup-phrase-step-2" class="ng-hide" *ngIf="step == 2">
+        <div class="confirmation-prompt" translate>Let's verify your backup phrase.</div>
+        <div class="backup-phrase">
+          <div class="backup-phrase-content">
+            <template *ngFor="let cword of customWords; let i = index">
+              <button class="button select-word" (click)="removeButton(i, cword)">{{cword.word}}</button>
+            </template>
+          </div>
+        </div>
+        <div id="select-phrase" class="cta-buttons">
+          <div id="select-phrase-content">
+            <div *ngIf="!selectComplete" class="tldr-prompt" translate>Please tap each word in the correct order.</div>
+            <div *ngIf="selectComplete" class="tldr-prompt" translate>Is this correct?</div>
+            <template *ngIf="!selectComplete">
+              <button class="button select-word" *ngFor="let shuffledWord of shuffledMnemonicWords; let i = index"
+                (click)="addButton(i, shuffledWord)"
+                [disabled]="shuffledWord.selected">{{shuffledWord.word}}
+              </button>
+            </template>
+            <button *ngIf="selectComplete" class="button button-standard button-primary" (click)="goToStep(3);" translate>Confirm</button>
+            <button *ngIf="selectComplete" class="button button-standard button-secondary button-clear" (click)="setFlow(2);" translate>Clear</button>
+          </div>
+        </div>
+      </div>
+    </ion-slide>
+
+    <ion-slide *ngIf="!deleted">
+      <div id="wallet-backup-phrase-step-3" *ngIf="step == 3">
+        <h3 translate>Enter your password</h3>
+        <div class="password-prompt">
+          <div class="explanation">
+            <div class="description" translate>In order to verify your wallet backup, please type your password.</div>
+            <div class="input">
+              <input type="password" id="passphrase" ng-model="data.passphrase" autocapitalize="off" spellcheck="false" autofocus/>
+            </div>
+          </div>
+        </div>
+        <div class="button-confirm">
+          <button [disabled]="!data.passphrase" class="button button-standard button-primary" (click)="goToStep(4);" translate>Confirm</button>
+        </div>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

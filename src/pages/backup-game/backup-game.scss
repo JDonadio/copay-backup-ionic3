@@ -1,0 +1,13 @@
+page-backup-game {
+  .header-md::after {
+    background: none;
+  }
+  .navbarc {
+    .bar-button {
+      color: $v-accent-color;
+    }
+    .toolbar-background {
+      background: none;
+    }
+  }
+}
