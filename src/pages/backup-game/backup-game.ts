@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides, Navbar } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Slides, Navbar, AlertController, ModalController } from 'ionic-angular';
 import * as _ from 'lodash';
 
 /**
@@ -31,7 +31,7 @@ export class BackupGamePage {
   private keys: any;
   private useIdeograms: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, public modalCtrl: ModalController) {
     // TODO replace for the original wallet object
     this.wallet = {
       name: 'Wallet name',
@@ -88,6 +88,7 @@ export class BackupGamePage {
     this.error = false;
 
     // words = _.repeat('x', 300);
+    if (this.currentIndex == 2) this.slidePrev();
   };
 
   shuffledWords(words: Array<String>) {
@@ -98,20 +99,6 @@ export class BackupGamePage {
         word: w,
         selected: false
       };
-    });
-  };
-
-  finalStep() {
-    // ongoingProcess.set('validatingWords', true);
-    this.confirm((err) => {
-      // ongoingProcess.set('validatingWords', false);
-      if (err) {
-        this.backupError(err);
-      }
-      setTimeout(() => {
-        this.showBackupResult();
-        return;
-      });
     });
   };
 
@@ -139,6 +126,21 @@ export class BackupGamePage {
       this.selectComplete = false;
   };
 
+  finalStep() {
+    console.log('Final step')
+    // ongoingProcess.set('validatingWords', true);
+    this.confirm((err) => {
+      // ongoingProcess.set('validatingWords', false);
+      if (err) {
+        this.backupError(err);
+      }
+      setTimeout(() => {
+        this.showBackupResult();
+        return;
+      });
+    });
+  };
+
   confirm(cb: Function) {
     this.error = false;
 
@@ -149,6 +151,7 @@ export class BackupGamePage {
     }
 
     setTimeout(() => {
+      // TODO waiting for bwc
       // if (this.mnemonicHasPassphrase) {
       //   var walletClient = bwcService.getClient();
       //   var separator = this.useIdeograms ? '\u3000' : ' ';
@@ -185,15 +188,21 @@ export class BackupGamePage {
 
   showBackupResult() {
     if (this.error) {
-      var title = "Uh oh...";
-      var message = "It's important that you write your backup phrase down correctly. If something happens to your wallet, you'll need this backup to recover your money. Please review your backup and try again.";
-      // popupService.showAlert(title, message, function() {
-      //   $scope.initFlow(2);
-      // })
-      console.log(title, message);
+      let alert = this.alertCtrl.create({
+        title: "Uh oh...",
+        subTitle: "It's important that you write your backup phrase down correctly. If something happens to your wallet, you'll need this backup to recover your money. Please review your backup and try again.",
+        buttons: [{
+          text: 'Ok',
+          role: 'cancel',
+          handler: () => {
+            this.initFlow();
+          }
+        }]
+      });
+      alert.present();
     } else {
-      // this.openConfirmBackupModal();
-      console.log('###ASD');
+      const myModal = this.modalCtrl.create('BackupConfirmModalPage');
+      myModal.present();
     }
   };
 
@@ -229,18 +238,17 @@ export class BackupGamePage {
   }
 
   slideNext() {
-    this.slides.slideNext();
-    this.currentIndex = this.slides.getActiveIndex();
-
-    if (this.currentIndex == 2) {
-      if (!this.mnemonicHasPassphrase)
-        this.finalStep();
-      else
-        this.slideNext();
-    }
-    if (this.currentIndex == 3)
+    console.log('Current Index >>', this.currentIndex)
+    if (this.currentIndex == 1 && !this.wallet.mnemonicHasPassphrase)
       this.finalStep();
+    else
+      this.slides.slideNext();
+
+    this.currentIndex = this.slides.getActiveIndex();
+    console.log('Next >> ', this.currentIndex)
   }
+
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BackupGamePage');
