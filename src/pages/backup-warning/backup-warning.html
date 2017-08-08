@@ -17,12 +17,14 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="onboarding warning" padding>
   <div class="onboarding-topic" translate>Are you being watched?</div>
   <div class="onboarding-description" translate>Now is a perfect time to assess your surroundings. Nearby windows? Hidden cameras? Shoulder-spies?</div>
-  <div class="onboarding-illustration-backup-warning"></div>
-  <div id="cta-buttons">
+  <div class="onboarding-illustration-backup-warning">
+    <img src='assets/img/backup-warning.svg'/>
+  </div>
+  <div id="cta-buttons" class="buttons">
     <div class="onboarding-tldr" translate>Anyone with your backup phrase can access or spend your bitcoin.</div>
-    <button (click)="openWarningModal()" translate>Got it</button>
+    <button (click)="openWarningModal()" class="button primary" translate>Got it</button>
   </div>
 </ion-content>

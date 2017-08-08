@@ -25,7 +25,7 @@ export class BackupWarningPage {
   }
 
   openWarningModal() {
-    const myModal = this.modalCtrl.create('BackupWarningModalPage');
+    const myModal = this.modalCtrl.create('BackupWarningModalPage', {}, { showBackdrop: true, enableBackdropDismiss: true, cssClass: "my-modal" });
     myModal.present();
   }
 
