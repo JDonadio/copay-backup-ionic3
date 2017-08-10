@@ -37,6 +37,7 @@ export class BackupGamePage {
       name: 'Wallet name',
       credentials: {
         mnemonic: 'uno dos tres cuatro cinco seis siete ocho nueve diez once doce',
+        //mnemonic: 'turtle provide boat sick popular brisk test devote gossip embark endorse corn',
         mnemonicEncrypted: false,
       },
       n: 1,
@@ -201,7 +202,7 @@ export class BackupGamePage {
       });
       alert.present();
     } else {
-      const myModal = this.modalCtrl.create('BackupConfirmModalPage');
+      const myModal = this.modalCtrl.create('BackupConfirmModalPage', {}, { showBackdrop: true, enableBackdropDismiss: true, cssClass: "backup-modal-success" });
       myModal.present();
     }
   };

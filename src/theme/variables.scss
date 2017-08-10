@@ -20,12 +20,16 @@ $v-secondary-color:                                  #31465b;
 $v-accent-color:                                     #1abb9b;
 $v-btn-active-color:                                 #148e76;
 $v-background-warning:                               #ffa500;
+$v-background-success:                               #1abb9b;
 
 $v-dark-gray:                                        #445 !default;
 $v-mid-gray:                                         #667 !default;
 $v-light-gray:                                       #9b9bab !default;
 $v-title-gray:                                       #c2c9d1 !default;
 $v-subtle-gray:                                      darken(#ffffff, 5%) !default;
+
+$v-mnemonic-background:                              #f2f2f2 !default;
+$v-mnemonic-border-color:                            #d9d9d9 !default;
 
 $v-onboarding-color:                                 #ffffff !default;
 $v-onboarding-bar-header-color:                      #ffffff !default;

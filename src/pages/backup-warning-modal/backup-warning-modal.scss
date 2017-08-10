@@ -10,7 +10,7 @@ page-backup-warning-modal {
         }
     }
     .popup-modal-content-warning {
-        background-color: white;
+        background-color: $v-onboarding-bar-header-color;
         text-align: center;
         height: 65%;
         overflow-y: scroll;
