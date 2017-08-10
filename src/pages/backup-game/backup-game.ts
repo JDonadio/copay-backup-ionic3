@@ -128,7 +128,6 @@ export class BackupGamePage {
   };
 
   finalStep() {
-    console.log('Final step')
     // ongoingProcess.set('validatingWords', true);
     this.confirm((err) => {
       // ongoingProcess.set('validatingWords', false);
@@ -239,17 +238,13 @@ export class BackupGamePage {
   }
 
   slideNext() {
-    console.log('Current Index >>', this.currentIndex)
     if (this.currentIndex == 1 && !this.wallet.mnemonicHasPassphrase)
       this.finalStep();
     else
       this.slides.slideNext();
 
     this.currentIndex = this.slides.getActiveIndex();
-    console.log('Next >> ', this.currentIndex)
   }
-
-
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BackupGamePage');
