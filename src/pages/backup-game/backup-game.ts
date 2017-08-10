@@ -44,7 +44,7 @@ export class BackupGamePage {
       // isPrivKeyEncrypted: this.isPrivKeyEncrypted(),
       // mnemonicHasPassphrase: this.mnemonicHasPassphrase(),
       isPrivKeyEncrypted: false,
-      mnemonicHasPassphrase: false,
+      mnemonicHasPassphrase: true,
       network: 'livenet',
     };
 
